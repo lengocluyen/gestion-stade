@@ -1,13 +1,10 @@
 package net.gp.gestade.controller;
 
-import java.util.Date;
-
 import net.gp.gestade.Utils.MenuBuild;
 import net.gp.gestade.Utils.PagedGenericView;
-import net.gp.gestade.Utils.EquipmentValidator;
-import net.gp.gestade.form.Schedule;
+import net.gp.gestade.Utils.StadeValidator;
+import net.gp.gestade.form.Stade;
 import net.gp.gestade.service.StadeService;
-import net.gp.gestade.service.ScheduleService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,30 +21,35 @@ import org.springframework.web.servlet.ModelAndView;
 public class StadeController {
 	@Autowired
 	private StadeService sService;
-/*
+
 	@RequestMapping("/index")
 	public ModelAndView Index() {
-		return this.mvIndex(null, new Ville(), "Ajoute de Ville",
-				"/Covoso/ville/add");
+		return this.mvIndex(null, new Stade(), "Add Stade",
+				"/Gestade/stade/add");
 	}
-
+	@RequestMapping("/add")
+	public ModelAndView Add() {
+		return this.mvIndex(null, new Stade(), "Add Stade",
+				"/Gestade/stade/add");
+	}
+	
 	@RequestMapping("/index/{index}")
 	public ModelAndView Index(@PathVariable("index") Integer index) {
-		ModelAndView mv = new ModelAndView("ville/index");
-		mv.addObject("ville", new Ville());
+		ModelAndView mv = new ModelAndView("stade/index");
+		mv.addObject("stade", new Stade());
 		mv.addObject("message", null);
-		mv.addObject("title", "Ajoute de Ville");
-		mv.addObject("action", "/Covoso/ville/add");
-		PagedGenericView<Ville> ulist = new PagedGenericView<Ville>();
+		mv.addObject("title", "Add Stade");
+		mv.addObject("action", "/Gestade/stade/add");
+		PagedGenericView<Stade> ulist = new PagedGenericView<Stade>();
 
-		ulist.getNav().setRowCount(villeService.countVille());
+		ulist.getNav().setRowCount(sService.count());
 
 		if (index == null || index < 1)
 			ulist.getNav().setCurrentPage(1);
 		else
 			ulist.getNav().setCurrentPage(index);
 
-		ulist.setEntities(villeService.allVille(ulist.getNav()
+		ulist.setEntities(sService.all(ulist.getNav()
 				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
@@ -55,83 +57,86 @@ public class StadeController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView Add(@ModelAttribute("ville") Ville ville,
+	public ModelAndView Add(@ModelAttribute("stade") Stade stade,
 			BindingResult result) {
-		VilleValidator userValidator = new VilleValidator();
-		userValidator.validate(ville, result);
+		StadeValidator stadeValidator = new StadeValidator();
+		stadeValidator.validate(stade, result);
 		String message = "";
-		Ville re;
+		Stade re;
 		if (result.hasErrors()) {
-			message = "Les données incorrectes";
-			re = new Ville();
+			message = "Invalid Data";
+			re = new Stade();
 		} else {
-			villeService.createVille(ville);
-			message = "L'insertion réussi";
-			re = ville;
+			sService.add(stade);
+			message = "Suc";
+			re = stade;
 		}
-		return this.mvIndex(message, re, "Ajoute de Ville",
-				"/Covoso/ville/add");
+		return this.mvIndex(message, re, "Add Stade",
+				"/Gestade/stade/add");
 	}
 
-	@RequestMapping("/edit/{villeId}")
+	@RequestMapping("/edit/{stadeID}")
 	public ModelAndView edit(
-			@PathVariable("villeId") Long villeId) {
-		return this.mvIndex(null, villeService.singleVille(villeId),
-				"Mis à jour de ville", "/Covoso/ville/edit/"
-						+ villeId);
+			@PathVariable("stadeID") Integer stadeID) {
+		return this.mvIndex(null, sService.single(stadeID),
+				"Update Stade", "/Gestade/stade/edit/"
+						+ stadeID);
 	}
 
-	@RequestMapping(value = "/edit/{villeId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit/{stadeID}", method = RequestMethod.POST)
 	public ModelAndView editPage(
-			@PathVariable("villeId") Long villeId,
-			@ModelAttribute("ville") Ville ville,
+			@PathVariable("stadeID") Integer stadeID,
+			@ModelAttribute("stade") Stade stade,
 			BindingResult result) {
-		VilleValidator villeValidator = new VilleValidator();
-		villeValidator.validate(ville, result);
+		StadeValidator stadeValidator = new StadeValidator();
+		stadeValidator.validate(stade, result);
 		String message = "";
-		Ville re;
+		Stade re;
 		if (result.hasErrors()) {
-			message = "Les données incorrectes";
-			re = new Ville();
+			message = "Invalid data";
+			re = new Stade();
 		} else {
-			Ville nu = villeService.singleVille(villeId);
-			nu.setNom(ville.getNom());
-			villeService.updateVille(nu);
-			message = "Le mis a jour réussi";
-			re = ville;
+			Stade nu = sService.single(stadeID);
+			nu.setName(stade.getName());
+			nu.setPosition(stade.getPosition());
+			nu.setState(stade.getState());
+			nu.setType(stade.getType());
+			nu.setDescription(stade.getDescription());
+			sService.update(nu);
+			message = "Successful update";
+			re = stade;
 		}
-		return this.mvIndex(message, new Ville(), "Ajoute de Ville",
-				"/Covoso/ville/add");
+		return this.mvIndex(message, new Stade(), "Add Stade",
+				"/Gestade/stade/add");
 	}
-	@RequestMapping("/delete/{villeId}")
+	@RequestMapping("/delete/{stadeID}")
 	public ModelAndView delete(
-			@PathVariable("villeId") Long villeId) {
+			@PathVariable("stadeID") Integer stadeID) {
 
-		villeService.removeVille(villeId);
-		return this.mvIndex("La supression reussi", new Ville(),
-				"Ajoute de Ville", "/Covoso/ville/add");
+		sService.delete(stadeID);
+		return this.mvIndex("Successful add", new Stade(),
+				"Add Stade", "/Gestade/stade/add");
 	}
 
 	// la procedure commun
 	public ModelAndView mvIndex(String message,
- Ville ville, String title,
+ Stade stade, String title,
 			String action) {
-		ModelAndView mv = new ModelAndView("ville/index");
-		mv.addObject("ville", ville);
+		ModelAndView mv = new ModelAndView("stade/index");
+		mv.addObject("stade", stade);
 		mv.addObject("message", message);
 		mv.addObject("title", title);
 		mv.addObject("action", action);
-		PagedGenericView<Ville> ulist = new PagedGenericView<Ville>();
-		ulist.getNav().setRowCount(villeService.countVille());
+		PagedGenericView<Stade> ulist = new PagedGenericView<Stade>();
+		ulist.getNav().setRowCount(sService.count());
 
 		ulist.getNav().setCurrentPage(1);
-		ulist.setEntities(villeService.allVille(ulist.getNav()
+		ulist.setEntities(sService.all(ulist.getNav()
 				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
 		mv.addObject("admenu", MenuBuild.AdminLogin("Annonce"));
 		return mv;
 	}
-	*/
 }
 

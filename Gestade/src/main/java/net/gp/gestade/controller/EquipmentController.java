@@ -2,7 +2,8 @@ package net.gp.gestade.controller;
 
 import net.gp.gestade.Utils.MenuBuild;
 import net.gp.gestade.Utils.PagedGenericView;
-import net.gp.gestade.Utils.StadeValidator;
+import net.gp.gestade.Utils.EquipmentValidator;
+import net.gp.gestade.form.Equipment;
 import net.gp.gestade.service.EquipmentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,118 +15,127 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+
 @Controller
 @RequestMapping("/equipment")
 public class EquipmentController {
 	@Autowired
 	private EquipmentService eService;
 
-	/*@RequestMapping("/index")
+	@RequestMapping("/index")
 	public ModelAndView Index() {
-		return this.mvIndex(null, new Voiture(), "Ajoute de Voiture",
-				"/Covoso/voiture/add");
+		return this.mvIndex(null, new Equipment(), "Adds equipment",
+				"/Gestade/equipment/add");
 	}
-
+	@RequestMapping("/add")
+	public ModelAndView Add() {
+		return this.mvIndex(null, new Equipment(), "Adds equipment",
+				"/Gestade/equipment/add");
+	}
+	
 	@RequestMapping("/index/{index}")
 	public ModelAndView Index(@PathVariable("index") Integer index) {
-		ModelAndView mv = new ModelAndView("voiture/index");
-		mv.addObject("voiture", new Voiture());
+		ModelAndView mv = new ModelAndView("equipment/index");
+		mv.addObject("equipment", new Equipment());
 		mv.addObject("message", null);
-		mv.addObject("title", "Ajoute de Voiture");
-		mv.addObject("action", "/Covoso/voiture/add");
-		PagedGenericView<Voiture> ulist = new PagedGenericView<Voiture>();
+		mv.addObject("title", "Adds equipment");
+		mv.addObject("action", "/Gestade/equipment/add");
+		PagedGenericView<Equipment> ulist = new PagedGenericView<Equipment>();
 
-		ulist.getNav().setRowCount(voitureService.count());
+		ulist.getNav().setRowCount(eService.count());
 
 		if (index == null || index < 1)
 			ulist.getNav().setCurrentPage(1);
 		else
 			ulist.getNav().setCurrentPage(index);
 
-		ulist.setEntities(voitureService.all(ulist.getNav().getCurrentPage(),
-				ulist.getNav().getPageSize()));
+		ulist.setEntities(eService.all(ulist.getNav()
+				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
 		return mv;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView Add(@ModelAttribute("voiture") Voiture voi,
+	public ModelAndView Add(@ModelAttribute("equipment") Equipment equipment,
 			BindingResult result) {
-		StadeValidator voiValidator = new StadeValidator();
-		voiValidator.validate(voi, result);
+		EquipmentValidator equipmentValidator = new EquipmentValidator();
+		equipmentValidator.validate(equipment, result);
 		String message = "";
-		Voiture re;
+		Equipment re;
 		if (result.hasErrors()) {
-			message = "Les données incorrectes";
-			re = new Voiture();
+			message = "Invalid data";
+			re = new Equipment();
 		} else {
-			voitureService.create(voi);
-			message = "L'insertion réussi";
-			re = voi;
+			eService.add(equipment);
+			message = "Successful add";
+			re = equipment;
 		}
-		return this.mvIndex(message, re, "Ajoute de Voiture",
-				"/Covoso/voiture/add");
+		return this.mvIndex(message, re, "Adds equipment",
+				"/Gestade/equipment/add");
 	}
 
-	@RequestMapping("/edit/{voitureId}")
+	@RequestMapping("/edit/{equipmentID}")
 	public ModelAndView edit(
-@PathVariable("voitureId") Long voitureId) {
-		return this.mvIndex(null, voitureService.single(voitureId),
-				"Mis à jour d'Voiture", "/Covoso/voiture/edit/" + voitureId);
+			@PathVariable("equipmentID") Integer equipmentID) {
+		return this.mvIndex(null, eService.single(equipmentID),
+				"Update equipment", "/Gestade/equipment/edit/"
+						+ equipmentID);
 	}
 
-	@RequestMapping(value = "/edit/{voitureId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit/{equipmentID}", method = RequestMethod.POST)
 	public ModelAndView editPage(
-@PathVariable("voitureId") Long voitureId,
-			@ModelAttribute("voiture") Voiture voi,
+			@PathVariable("equipmentID") Integer equipmentID,
+			@ModelAttribute("equipment") Equipment equipment,
 			BindingResult result) {
-		StadeValidator voiValidator = new StadeValidator();
-		voiValidator.validate(voi, result);
+		EquipmentValidator equipmentValidator = new EquipmentValidator();
+		equipmentValidator.validate(equipment, result);
 		String message = "";
-		Voiture re;
+		Equipment re;
 		if (result.hasErrors()) {
-			message = "Les données incorrectes";
-			re = new Voiture();
+			message = "Invalid data";
+			re = new Equipment();
 		} else {
-			Voiture nu = voitureService.single(voitureId);
-			nu.setType(voi.getType());
-			nu.setNombrePlace(voi.getNombrePlace());
-			nu.setUtilisateurID(voi.getUtilisateurID());
-			voitureService.update(nu);
-			message = "Le mis a jour réussi";
-			re = voi;
+			Equipment nu = eService.single(equipmentID);
+			nu.setName(equipment.getName());
+			nu.setQuantity(equipment.getQuantity());
+			nu.setUserImport(equipment.getUserImport());
+			nu.setDateImport(equipment.getDateImport());
+			eService.update(nu);
+			message = "Successful update";
+			re = equipment;
 		}
-		return this.mvIndex(message, new Voiture(), "Ajoute de Voiture",
-				"/Covoso/voiture/add");
+		return this.mvIndex(message, new Equipment(), "Adds equipment",
+				"/Gestade/equipment/add");
 	}
-	@RequestMapping("/delete/{voitureId}")
+	@RequestMapping("/delete/{equipmentID}")
 	public ModelAndView delete(
-@PathVariable("voitureId") Long voitureId) {
+			@PathVariable("equipmentID") Integer equipmentID) {
 
-		voitureService.remove(voitureId);
-		return this.mvIndex("La supression reussi", new Voiture(),
-				"Ajoute d'voiture", "/Covoso/voiture/add");
+		eService.remove(equipmentID);
+		return this.mvIndex("Succesful delete", new Equipment(),
+				"Adds equipment", "/Gestade/equipment/add");
 	}
 
 	// la procedure commun
-	public ModelAndView mvIndex(String message, Voiture voi, String title,
+	public ModelAndView mvIndex(String message,
+			Equipment equipment, String title,
 			String action) {
-		ModelAndView mv = new ModelAndView("voiture/index");
-		mv.addObject("voiture", voi);
+		ModelAndView mv = new ModelAndView("equipment/index");
+		mv.addObject("equipment", equipment);
 		mv.addObject("message", message);
 		mv.addObject("title", title);
 		mv.addObject("action", action);
-		PagedGenericView<Voiture> ulist = new PagedGenericView<Voiture>();
-		ulist.getNav().setRowCount(voitureService.count());
+		PagedGenericView<Equipment> ulist = new PagedGenericView<Equipment>();
+		ulist.getNav().setRowCount(eService.count());
 
 		ulist.getNav().setCurrentPage(1);
-		ulist.setEntities(voitureService.all(ulist.getNav().getCurrentPage(),
-				ulist.getNav().getPageSize()));
+		ulist.setEntities(eService.all(ulist.getNav()
+				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
-		mv.addObject("admenu", MenuBuild.AdminLogin("Utilisateur"));
+		mv.addObject("admenu", MenuBuild.AdminLogin("Annonce"));
 		return mv;
 	}
-	*/
 }
+

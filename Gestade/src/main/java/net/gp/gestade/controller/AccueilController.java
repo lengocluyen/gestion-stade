@@ -10,6 +10,7 @@ import net.gp.gestade.Utils.CovosoUtils;
 import net.gp.gestade.Utils.LoginValidator;
 import net.gp.gestade.Utils.MenuBuild;
 import net.gp.gestade.Utils.PagedGenericView;
+import net.gp.gestade.Utils.SessionManage;
 import net.gp.gestade.Utils.StadeValidator;
 import net.gp.gestade.form.Account;
 import net.gp.gestade.form.Equipment;
@@ -36,19 +37,101 @@ import freemarker.core.Expression;
 @Controller
 //@SessionAttributes({ "utilisateur", "compte", "admin" })
 public class AccueilController {
-
+	@Autowired
+	private AccountService accountService;
 	@RequestMapping("/")
 	public ModelAndView accueil(ModelMap map) {
 		ModelAndView mv = new ModelAndView("accueil");
 		
 		return mv;
 	}
+	// 1. Login
+	@RequestMapping("/login")
+	public ModelAndView login(ModelMap map,HttpSession session) {
+		SessionManage sessionManage = new SessionManage(session);
+		if (sessionManage.getAccount()== null) {
+			ModelAndView mv = new ModelAndView("login");
+			mv.addObject("account", new Account());
+			mv.addObject("menu", MenuBuild.AvantLogin("s'identifier"));
+			return mv;
+		} else {
+			ModelAndView mv = new ModelAndView("accueil");
+//			mv.addObject("recherchebox", new Annonce());
+//			mv.addObject("listVille", annonceService.allVille());
+			mv.addObject("menu", MenuBuild.ApresLogin("accueil"));
+			return mv;
+		}
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView login(@ModelAttribute("account") Account account,
+			BindingResult result, ModelMap map,HttpSession session) {
+		SessionManage sessionManage = new SessionManage(session);
+		LoginValidator valid = new LoginValidator();
+		valid.validate(account, result);
+		String message = "";
+		Account newacc= new Account();
+		ModelAndView mv = new ModelAndView("login");
+		if (result.hasErrors()) {
+			message = "Les donnees incorrectes";
+			
+			mv.addObject("account", new Account());
+			mv.addObject("message", message);
+			mv.addObject("menu", MenuBuild.AvantLogin("s'identifier"));
+			return mv;
+		} else {
+			newacc = accountService.login(account.getPhonenumber(),
+					account.getPassword());
+			if (newacc != null) {
+				sessionManage.setAccount(newacc);
+				sessionManage.setIsLogin(true);
+				//account admin?
+				if (newacc.getStatus().compareTo("admin") == 0) {
+					sessionManage.setIsAdmin(true);
+				}
+				return new ModelAndView("redirect:/");
+			} else {
+				message = "Compte n'existe pas";
+				mv.addObject("account", new Account());
+				mv.addObject("message", message);
+				mv.addObject("menu", MenuBuild.AvantLogin("s'identifier"));
+				return mv;
+			}
+		}
+	}
+
+	//
+	// 2.Logout
+	@RequestMapping("/logout")
+	public String logout(ModelMap map, HttpSession session) {
+		SessionManage sessionManage = new SessionManage(session);
+		sessionManage.setAccount(null);
+		sessionManage.setIsAdmin(null);
+		sessionManage.setIsLogin(null);
+		return "redirect:/";
+	}
+
+	// Page d'introduction de notre groupe
+	@RequestMapping("/about")
+	public ModelAndView about(ModelMap map) {
+
+		if (map.get("utilisateur") == null) {
+			ModelAndView mv = new ModelAndView("about");
+			//mv.addObject("menu", MenuBuild.AvantLogin("a propos nous"));
+			return mv;
+		} else {
+			ModelAndView mv = new ModelAndView("about");
+			//mv.addObject("menu", MenuBuild.ApresLogin("a propos nous"));
+			return mv;
+		}
+	}
+	
+	
 	/*
 	
 	@Autowired
 	private UtilisateurService utilisateurService;
-	@Autowired
-	private CompteService compteService;
+	
 	@Autowired
 	private VoitureService voitureService;
 
@@ -501,88 +584,6 @@ public class AccueilController {
 		return mv;
 	}
 
-	// 1. Login
-	@RequestMapping("/login")
-	public ModelAndView login(ModelMap map) {
-		if (map.get("utilisateur") == null) {
-			ModelAndView mv = new ModelAndView("login");
-			mv.addObject("compte", new Compte());
-			mv.addObject("menu", MenuBuild.AvantLogin("s'identifier"));
-			return mv;
-		} else {
-			ModelAndView mv = new ModelAndView("accueil");
-			mv.addObject("recherchebox", new Annonce());
-			mv.addObject("listVille", annonceService.allVille());
-			mv.addObject("menu", MenuBuild.ApresLogin("accueil"));
-			return mv;
-		}
-	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView login(@ModelAttribute("compte") Compte compte,
-			BindingResult result, ModelMap map) {
-		LoginValidator valid = new LoginValidator();
-		valid.validate(compte, result);
-		String message = "";
-		Compte newcompte = new Compte();
-		ModelAndView mv = new ModelAndView("login");
-		if (result.hasErrors()) {
-			message = "Les donnees incorrectes";
-			mv.addObject("compte", new Compte());
-			mv.addObject("message", message);
-			mv.addObject("menu", MenuBuild.AvantLogin("s'identifier"));
-			return mv;
-		} else {
-			newcompte = compteService.login(compte.getLogin(),
-					compte.getPassword());
-			if (newcompte != null) {
-				map.addAttribute("utilisateur",
-						utilisateurService.single(newcompte.getUtilisateurid()));
-				map.addAttribute("compte", newcompte);
-				if (newcompte.getType().compareTo("admin") == 0) {
-					map.addAttribute("admin", newcompte);
-				}
-				return new ModelAndView("redirect:/");
-			} else {
-				message = "Compte n'existe pas";
-				mv.addObject("compte", new Compte());
-				mv.addObject("message", message);
-				mv.addObject("menu", MenuBuild.AvantLogin("s'identifier"));
-				return mv;
-			}
-		}
-	}
-
-	//
-	// 2.Logout
-	@RequestMapping("/logout")
-	public String logout(ModelMap map, HttpSession session) {
-		map.remove("utilisateur");
-		map.remove("compte");
-		map.remove("admin");
-		session.removeAttribute("utilisateur");
-		session.removeAttribute("compte");
-		session.removeAttribute("admin");
-		return "redirect:/";
-	}
-
-	// Page d'introduction de notre groupe
-	@RequestMapping("/about")
-	public ModelAndView about(ModelMap map) {
-
-		if (map.get("utilisateur") == null) {
-			ModelAndView mv = new ModelAndView("about");
-			mv.addObject("recherchebox", new Annonce());
-			mv.addObject("listVille", annonceService.allVille());
-			mv.addObject("menu", MenuBuild.AvantLogin("a propos nous"));
-			return mv;
-		} else {
-			ModelAndView mv = new ModelAndView("about");
-			mv.addObject("recherchebox", new Annonce());
-			mv.addObject("listVille", annonceService.allVille());
-			mv.addObject("menu", MenuBuild.ApresLogin("a propos nous"));
-			return mv;
-		}
-	}
 */
 }

@@ -18,6 +18,58 @@
 	<definition name="accueil" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/jsp/content.jsp" />
 	</definition>
+	
+	<definition name="base.admin" template="/WEB-INF/tiles/adlayout.jsp">
+			<put-attribute name="title" value="Gestion de stade" />
+		<put-attribute name="header" value="/WEB-INF/tiles/adheader.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/tiles/admenu.jsp" />
+		<put-attribute name="title" value="/WEB-INF/tiles/adtitle.jsp" />
+		<put-attribute name="path" value="/WEB-INF/tiles/adpath.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="sponsor" value="/WEB-INF/tiles/sponsor.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
+		<put-attribute name="footerdown" value="/WEB-INF/tiles/footerdown.jsp" />
+	</definition>
+	<definition name="gestion/accueil" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adcontent.jsp" />
+	</definition>
+	<definition name="stade/index" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adstade.jsp" />
+	</definition>
+	<definition name="stade/edit" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adstade.jsp" />
+	</definition>
+	<definition name="stade/add" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adstade.jsp" />
+	</definition>
+	<definition name="equipment/index" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adequipment.jsp" />
+	</definition>
+	<definition name="equipment/edit" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adequipment.jsp" />
+	</definition>
+	<definition name="equipment/add" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adequipment.jsp" />
+	</definition>
+	<definition name="account/index" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adaccount.jsp" />
+	</definition>
+	<definition name="account/edit" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adaccount.jsp" />
+	</definition>
+	<definition name="account/add" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adaccount.jsp" />
+	</definition>
+	<definition name="schedule/index" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adschedule.jsp" />
+	</definition>
+	<definition name="schedule/edit" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adschedule.jsp" />
+	</definition>
+	<definition name="schedule/add" extends="base.admin">
+		<put-attribute name="body" value="/WEB-INF/jsp/adschedule.jsp" />
+	</definition>
+	
 	<!--<definition name="recherche" extends="base.definition">
 		<put-attribute name="title" value="Solution Covoiturage" />
 		<put-attribute name="body" value="/WEB-INF/jsp/recherche.jsp" />
@@ -42,17 +94,8 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/inscription.jsp" />
 	</definition>
 	
-	<definition name="base.admin" template="/WEB-INF/tiles/adlayout.jsp">
-		<put-attribute name="title" value="" />
-		<put-attribute name="header" value="/WEB-INF/tiles/adheader.jsp" />
-		<put-attribute name="menu" value="/WEB-INF/tiles/admenu.jsp" />
-		<put-attribute name="body" value="" />
-		<put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
-	</definition>
-	<definition name="gestion/accueil" extends="base.admin">
-		<put-attribute name="title" value="Solution Covoiturage" />
-		<put-attribute name="body" value="/WEB-INF/jsp/gestion.jsp" />
-	</definition>
+	
+	
 	<definition name="utilisateur/index" extends="base.admin">
 		<put-attribute name="title" value="Solution Covoiturage" />
 		<put-attribute name="body" value="/WEB-INF/jsp/adutilisateur.jsp" />
