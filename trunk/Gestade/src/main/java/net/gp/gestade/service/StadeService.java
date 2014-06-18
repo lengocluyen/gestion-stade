@@ -12,4 +12,5 @@ public interface StadeService {
 	void add(Stade entity);
 	void delete(Integer key);
 	List<Stade> all(int page, int pagesize);
+	int count();
 }

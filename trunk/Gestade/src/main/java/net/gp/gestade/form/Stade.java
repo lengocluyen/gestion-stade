@@ -18,7 +18,7 @@ public class Stade {
 	@Id
 	@GeneratedValue
 	@Column(name = "StadeID")
-	Long stadeID;
+	Integer stadeID;
 
 	@Column(name = "Name")
 	String name;
@@ -35,11 +35,11 @@ public class Stade {
 	@Column(name = "State")
 	String state;
 
-	public Long getStadeID() {
+	public Integer getStadeID() {
 		return stadeID;
 	}
 
-	public void setStadeID(Long stadeID) {
+	public void setStadeID(Integer stadeID) {
 		this.stadeID = stadeID;
 	}
 

@@ -1,10 +1,8 @@
 package net.gp.gestade.controller;
 
-import java.util.Date;
-
 import net.gp.gestade.Utils.MenuBuild;
 import net.gp.gestade.Utils.PagedGenericView;
-import net.gp.gestade.Utils.EquipmentValidator;
+import net.gp.gestade.Utils.ScheduleValidator;
 import net.gp.gestade.form.Schedule;
 import net.gp.gestade.service.ScheduleService;
 
@@ -17,35 +15,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+
 @Controller
 @RequestMapping("/schedule")
 public class ScheduleController {
 	@Autowired
 	private ScheduleService sService;
-/*
+
 	@RequestMapping("/index")
 	public ModelAndView Index() {
-		return this.mvIndex(null, new Schedule(), "Ajoute d'Utilisateur",
-				"/Covoso/utilisateur/add");
+		return this.mvIndex(null, new Schedule(), "Add Schedule",
+				"/Gestade/schedule/add");
 	}
-
+	@RequestMapping("/add")
+	public ModelAndView Add() {
+		return this.mvIndex(null, new Schedule(), "Add Schedule",
+				"/Gestade/schedule/add");
+	}
+	
 	@RequestMapping("/index/{index}")
 	public ModelAndView Index(@PathVariable("index") Integer index) {
-		ModelAndView mv = new ModelAndView("utilisateur/index");
-		mv.addObject("utilisateur", new Schedule());
+		ModelAndView mv = new ModelAndView("schedule/index");
+		mv.addObject("schedule", new Schedule());
 		mv.addObject("message", null);
-		mv.addObject("title", "Ajoute d'Utilisateur");
-		mv.addObject("action", "/Covoso/utilisateur/add");
+		mv.addObject("title", "Add Schedule");
+		mv.addObject("action", "/Gestade/schedule/add");
 		PagedGenericView<Schedule> ulist = new PagedGenericView<Schedule>();
 
-		ulist.getNav().setRowCount(utilisateurService.count());
+		ulist.getNav().setRowCount(sService.count());
 
 		if (index == null || index < 1)
 			ulist.getNav().setCurrentPage(1);
 		else
 			ulist.getNav().setCurrentPage(index);
 
-		ulist.setEntities(utilisateurService.all(ulist.getNav()
+		ulist.setEntities(sService.all(ulist.getNav()
 				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
@@ -53,90 +57,89 @@ public class ScheduleController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView Add(@ModelAttribute("utilisateur") Schedule user,
+	public ModelAndView Add(@ModelAttribute("schedule") Schedule schedule,
 			BindingResult result) {
-		EquipmentValidator userValidator = new EquipmentValidator();
-		userValidator.validate(user, result);
+		ScheduleValidator scheduleValidator = new ScheduleValidator();
+		scheduleValidator.validate(schedule, result);
 		String message = "";
 		Schedule re;
 		if (result.hasErrors()) {
-			message = "Les données incorrectes";
+			message = "Invalid Data";
 			re = new Schedule();
 		} else {
-			user.setDateCreate(new Date());
-			user.setDateUpdate(new Date());
-			utilisateurService.create(user);
-			message = "L'insertion réussi";
-			re = user;
+			sService.add(schedule);
+			message = "Suc";
+			re = schedule;
 		}
-		return this.mvIndex(message, re, "Ajoute d'Utilisateur",
-				"/Covoso/utilisateur/add");
+		return this.mvIndex(message, re, "Add Schedule",
+				"/Gestade/schedule/add");
 	}
 
-	@RequestMapping("/edit/{utilisateurId}")
+	@RequestMapping("/edit/{scheduleID}")
 	public ModelAndView edit(
-			@PathVariable("utilisateurId") Integer utilisateurId) {
-		return this.mvIndex(null, utilisateurService.single(utilisateurId),
-				"Mis à jour d'Utilisateur", "/Covoso/utilisateur/edit/"
-						+ utilisateurId);
+			@PathVariable("scheduleID") Integer scheduleID) {
+		return this.mvIndex(null, sService.single(scheduleID),
+				"Update Schedule", "/Gestade/schedule/edit/"
+						+ scheduleID);
 	}
 
-	@RequestMapping(value = "/edit/{utilisateurId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit/{scheduleID}", method = RequestMethod.POST)
 	public ModelAndView editPage(
-			@PathVariable("utilisateurId") Integer utilisateurId,
-			@ModelAttribute("utilisateur") Schedule user,
+			@PathVariable("scheduleID") Integer scheduleID,
+			@ModelAttribute("schedule") Schedule schedule,
 			BindingResult result) {
-		EquipmentValidator userValidator = new EquipmentValidator();
-		userValidator.validate(user, result);
+		ScheduleValidator scheduleValidator = new ScheduleValidator();
+		scheduleValidator.validate(schedule, result);
 		String message = "";
 		Schedule re;
 		if (result.hasErrors()) {
-			message = "Les données incorrectes";
+			message = "Invalid data";
 			re = new Schedule();
 		} else {
-			Schedule nu = utilisateurService.single(utilisateurId);
-			nu.setNom(user.getNom());
-			nu.setPrenom(user.getPrenom());
-			nu.setTelephone(user.getTelephone());
-			nu.setEmail(user.getEmail());
-			;
-			nu.setDateNaissance(user.getDateNaissance());
-			nu.setDateUpdate(new Date());
-			utilisateurService.update(nu);
-			message = "Le mis a jour réussi";
-			re = user;
+			Schedule nu = sService.single(scheduleID);
+			nu.setDateOrder(schedule.getDateOrder());
+			nu.setFromHour(schedule.getFromHour());
+			nu.setToHour(schedule.getToHour());
+			nu.setPrice(schedule.getPrice());
+			nu.setPromotion(schedule.getPromotion());
+			nu.setStadeID(schedule.getStadeID());
+			nu.setAccountID(schedule.getAccountID());
+			nu.setStatus(schedule.getStatus());
+			sService.update(nu);
+			message = "Successful update";
+			re = schedule;
 		}
-		return this.mvIndex(message, new Schedule(), "Ajoute d'Utilisateur",
-				"/Covoso/utilisateur/add");
+		return this.mvIndex(message, new Schedule(), "Add Schedule",
+				"/Gestade/schedule/add");
 	}
-	@RequestMapping("/delete/{utilisateurId}")
+	@RequestMapping("/delete/{scheduleID}")
 	public ModelAndView delete(
-			@PathVariable("utilisateurId") Integer utilisateurId) {
+			@PathVariable("scheduleID") Integer scheduleID) {
 
-		utilisateurService.remove(utilisateurId);
-		return this.mvIndex("La supression reussi", new Schedule(),
-				"Ajoute d'Utilisateur", "/Covoso/utilisateur/add");
+		sService.delete(scheduleID);
+		return this.mvIndex("Successful add", new Schedule(),
+				"Add Schedule", "/Gestade/schedule/add");
 	}
 
 	// la procedure commun
 	public ModelAndView mvIndex(String message,
- Schedule user, String title,
+ Schedule schedule, String title,
 			String action) {
-		ModelAndView mv = new ModelAndView("utilisateur/index");
-		mv.addObject("utilisateur", user);
+		ModelAndView mv = new ModelAndView("schedule/index");
+		mv.addObject("schedule", schedule);
 		mv.addObject("message", message);
 		mv.addObject("title", title);
 		mv.addObject("action", action);
 		PagedGenericView<Schedule> ulist = new PagedGenericView<Schedule>();
-		ulist.getNav().setRowCount(utilisateurService.count());
+		ulist.getNav().setRowCount(sService.count());
 
 		ulist.getNav().setCurrentPage(1);
-		ulist.setEntities(utilisateurService.all(ulist.getNav()
+		ulist.setEntities(sService.all(ulist.getNav()
 				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
-		mv.addObject("admenu", MenuBuild.AdminLogin("Utilisateur"));
+		mv.addObject("admenu", MenuBuild.AdminLogin("Annonce"));
 		return mv;
 	}
-	*/
 }
+

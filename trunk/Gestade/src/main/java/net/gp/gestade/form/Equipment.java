@@ -17,7 +17,7 @@ public class Equipment {
 	@Id
 	@GeneratedValue
 	@Column(name = "EquipmentID")
-	Long equipmentID;
+	Integer equipmentID;
 
 	@Column(name = "Name")
 	String name;
@@ -31,11 +31,11 @@ public class Equipment {
 	@Column(name = "UserImport")
 	String userImport;
 
-	public Long getEquipmentID() {
+	public Integer getEquipmentID() {
 		return equipmentID;
 	}
 
-	public void setEquipmentID(Long equipmentID) {
+	public void setEquipmentID(Integer equipmentID) {
 		this.equipmentID = equipmentID;
 	}
 

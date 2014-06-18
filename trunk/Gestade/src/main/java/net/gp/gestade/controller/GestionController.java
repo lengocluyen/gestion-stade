@@ -13,7 +13,7 @@ public class GestionController {
 	@RequestMapping("/accueil")
 	public ModelAndView accueil(ModelMap map) {
 		ModelAndView mv = new ModelAndView("gestion/accueil");
-		mv.addObject("admenu", MenuBuild.AdminLogin("Accueil"));
+		//mv.addObject("admenu", MenuBuild.AdminLogin("Accueil"));
 		return mv;
 	}
 

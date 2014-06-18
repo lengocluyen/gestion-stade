@@ -15,7 +15,7 @@ public class StadeValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		Stade entity = (Stade) target;
 
-		if (entity.getName() == null) {
+		if (entity.getName() == "") {
 			errors.rejectValue("Name", "*");
 		}
 	}
