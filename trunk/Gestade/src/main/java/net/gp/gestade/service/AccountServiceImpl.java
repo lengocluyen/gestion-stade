@@ -59,8 +59,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 	@Transactional
 	public Account login(String login, String pass) {
-		Criterion l = Restrictions.eq("PhoneNumber", login);
-		Criterion p = Restrictions.eq("Password", pass);
+		Criterion l = Restrictions.eq("username", login);
+		Criterion p = Restrictions.eq("password", pass);
 		LogicalExpression le = Restrictions.and(l, p);
 		List<Account> ls = adao.find(le);
 		if (ls.size() > 0)
@@ -70,8 +70,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 	@Transactional
 	public Account FindByLogin(String login) {
-		Criterion l = Restrictions.eq("PhoneNumber", login);
-		Criterion p = Restrictions.gt("AccountID", 0);
+		Criterion l = Restrictions.eq("username", login);
+		Criterion p = Restrictions.gt("accountID", 0);
 		LogicalExpression le = Restrictions.and(l, p);
 		List<Account> ls = adao.find(le);
 		if (ls.size() > 0)
@@ -82,8 +82,8 @@ public class AccountServiceImpl implements AccountService {
 	@Transactional
 	public Account findByPhoneNumber(String phoneName)
 	{
-		Criterion l = Restrictions.eq("PhoneNumber", phoneName);
-		Criterion p = Restrictions.gt("AccountID", 0);
+		Criterion l = Restrictions.eq("phonename", phoneName);
+		Criterion p = Restrictions.gt("accountID", 0);
 		LogicalExpression le = Restrictions.and(l, p);
 		List<Account> ls = adao.find(le);
 		if (ls.size() > 0)

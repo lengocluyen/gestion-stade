@@ -3,67 +3,15 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 
-	<div class="row">
-		<div class="col-md-12">
-			<h2>Equipment Management</h2>
-		</div>
+<c:if test="${!empty uList.entities}">
+<div class="panel-box">
+	<div class="titles">
+		<h4>Liste d'equipments</h4>
 	</div>
 
-	<form:form class="form-theme" method="post" action="${action}"
-		commandName="equipment">
-		<div class="row">
-			<c:if test="${!empty message}">
-
-				<div class="alert alert-success">${message}</div>
-
-			</c:if>
-			<h4><c:if test="${!empty title}">${title}</c:if></h4>
-			<div class="form-group">
-				<div class="col-md-6">
-					<form:label path="name">
-						<spring:message code="label.name" />
-					</form:label>
-					<form:input path="name" maxlength="100" class="form-control" />
-				</div>
-				<div class="col-md-6">
-
-					<form:label path="quantity">
-						<spring:message code="label.quantity" />
-					</form:label>
-					<form:input path="quantity" maxlength="100" class="form-control" />
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="form-group">
-				<div class="col-md-6">
-					<form:label path="userImport">
-						<spring:message code="label.userImport" />
-					</form:label>
-					<form:input path="userImport" maxlength="100" class="form-control" />
-				</div>
-				<div class="col-md-6">
-
-					<form:label path="dateImport">
-						<spring:message code="label.dateImport" />
-					</form:label>
-					<form:input path="dateImport" maxlength="100" class="form-control" />
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<input type="submit" value="Submit" class="btn btn-lg btn-primary">
-			</div>
-		</div>
-	</form:form>
-
-
-<c:if test="${!empty uList.entities}">
 	<div class="row">
 		<div class="col-md-12">
 
-			<h4>Data list</h4>
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -116,4 +64,58 @@
 
 		</div>
 	</div>
+	</div>
 </c:if>
+<div class="panel-box">
+	<div class="titles">
+		<h4>Ajoute d'un equipment</h4>
+	</div>
+
+	<form:form class="form-theme" method="post" action="${action}"
+		commandName="equipment">
+		<div class="row">
+			<c:if test="${!empty message}">
+
+				<div class="alert alert-success">${message}</div>
+
+			</c:if>
+			<div class="form-group">
+				<div class="col-md-6">
+					<form:label path="name">
+						<spring:message code="label.name" />
+					</form:label>
+					<form:input path="name" maxlength="100" class="form-control" />
+				</div>
+				<div class="col-md-6">
+
+					<form:label path="quantity">
+						<spring:message code="label.quantity" />
+					</form:label>
+					<form:input path="quantity" maxlength="100" class="form-control" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group">
+				<div class="col-md-6">
+					<form:label path="userImport">
+						<spring:message code="label.userImport" />
+					</form:label>
+					<form:input path="userImport" maxlength="100" class="form-control" />
+				</div>
+				<div class="col-md-6">
+
+					<form:label path="dateImport">
+						<spring:message code="label.dateImport" />
+					</form:label>
+					<form:input path="dateImport" maxlength="100" class="form-control" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<input type="submit" value="Submit" class="btn btn-lg btn-primary">
+			</div>
+		</div>
+	</form:form>
+</div>

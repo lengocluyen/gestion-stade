@@ -1,5 +1,7 @@
 package net.gp.gestade.controller;
 
+import javax.servlet.http.HttpSession;
+
 import net.gp.gestade.Utils.MenuBuild;
 import net.gp.gestade.Utils.PagedGenericView;
 import net.gp.gestade.Utils.AccountValidator;
@@ -23,18 +25,18 @@ public class AccountController {
 	private AccountService aService;
 
 	@RequestMapping("/index")
-	public ModelAndView Index() {
-		return this.mvIndex(null, new Account(), "Add Account",
-				"/Gestade/account/add");
+	public ModelAndView Index(HttpSession session) {
+		return this.mvIndex(null, new Account(), null,
+				"/Gestade/account/add",session);
 	}
 	@RequestMapping("/add")
-	public ModelAndView Add() {
-		return this.mvIndex(null, new Account(), "Add Account",
-				"/Gestade/account/add");
+	public ModelAndView Add(HttpSession session) {
+		return this.mvIndex(null, new Account(), null,
+				"/Gestade/account/add",session);
 	}
 	
 	@RequestMapping("/index/{index}")
-	public ModelAndView Index(@PathVariable("index") Integer index) {
+	public ModelAndView Index(@PathVariable("index") Integer index,HttpSession session) {
 		ModelAndView mv = new ModelAndView("account/index");
 		mv.addObject("account", new Account());
 		mv.addObject("message", null);
@@ -53,12 +55,15 @@ public class AccountController {
 				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
+		mv.addObject("barpath","Page de Gestion de Compte");
+		mv.addObject("admenu", MenuBuild.getAdminMenu("Compte",session));
+		
 		return mv;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView Add(@ModelAttribute("account") Account account,
-			BindingResult result) {
+			BindingResult result,HttpSession session) {
 		AccountValidator accountValidator = new AccountValidator();
 		accountValidator.validate(account, result);
 		String message = "";
@@ -72,22 +77,22 @@ public class AccountController {
 			re = account;
 		}
 		return this.mvIndex(message, re, "Add Account",
-				"/Gestade/account/add");
+				"/Gestade/account/add",session);
 	}
 
 	@RequestMapping("/edit/{accountID}")
 	public ModelAndView edit(
-			@PathVariable("accountID") Integer accountID) {
+			@PathVariable("accountID") Integer accountID,HttpSession session) {
 		return this.mvIndex(null, aService.single(accountID),
 				"Update Account", "/Gestade/account/edit/"
-						+ accountID);
+						+ accountID,session);
 	}
 
 	@RequestMapping(value = "/edit/{accountID}", method = RequestMethod.POST)
 	public ModelAndView editPage(
 			@PathVariable("accountID") Integer accountID,
 			@ModelAttribute("account") Account account,
-			BindingResult result) {
+			BindingResult result,HttpSession session) {
 		AccountValidator accountValidator = new AccountValidator();
 		accountValidator.validate(account, result);
 		String message = "";
@@ -107,21 +112,21 @@ public class AccountController {
 			re = account;
 		}
 		return this.mvIndex(message, new Account(), "Add Account",
-				"/Gestade/account/add");
+				"/Gestade/account/add",session);
 	}
 	@RequestMapping("/delete/{accountID}")
 	public ModelAndView delete(
-			@PathVariable("accountID") Integer accountID) {
+			@PathVariable("accountID") Integer accountID,HttpSession session) {
 
 		aService.remove(accountID);
 		return this.mvIndex("Successful add", new Account(),
-				"Add Account", "/Gestade/account/add");
+				"Add Account", "/Gestade/account/add",session);
 	}
 
 	// la procedure commun
 	public ModelAndView mvIndex(String message,
 			Account account, String title,
-			String action) {
+			String action,HttpSession session) {
 		ModelAndView mv = new ModelAndView("account/index");
 		mv.addObject("account", account);
 		mv.addObject("message", message);
@@ -135,7 +140,8 @@ public class AccountController {
 				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
-		mv.addObject("admenu", MenuBuild.AdminLogin("Annonce"));
+		mv.addObject("barpath","Page de Gestion de Compte");
+		mv.addObject("admenu", MenuBuild.getAdminMenu("Compte",session));
 		return mv;
 	}
 }

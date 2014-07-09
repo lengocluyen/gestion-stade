@@ -13,8 +13,8 @@ public class LoginValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		Account entity = (Account) target;
 
-		if (entity.getPhonenumber() == null) {
-			errors.rejectValue("Phone Number", "*");
+		if (entity.getUsername() == null) {
+			errors.rejectValue("username", "*");
 		}
 		if (entity.getPassword() == null) {
 			errors.rejectValue("password", "*");

@@ -95,40 +95,11 @@
 			</div>
 		</div>
 		<!-- End Post Item -->
-
-		<!-- Post Item -->
-		<div class="post-item">
-			<div class="row">
-				<div class="col-md-4">
-					<div class="img-hover">
-						<img src='<c:url value="/resources/img/blog/4.jpg"/>' alt="" class="img-responsive">
-						<div class="overlay">
-							<a href="single-news.html">+</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-8">
-					<h4>
-						<a href="single-news.html">Porto Alegre and Cuiabá to welcome
-							Valcke</a>
-					</h4>
-					<p class="data-info">
-						January 8, 2014 / <i class="fa fa-comments"></i><a href="#">2</a>
-					</p>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-						rutrum, libero id imperdiet elementum, nunc... <a
-							href="single-news.html">Read More [+]</a>
-					</p>
-				</div>
-			</div>
-		</div>
-		<!-- End Post Item -->
 	</div>
 	<!-- End Recent Post -->
 
 	<!-- Experts -->
-	<div class="panel-box">
+	<!-- <div class="panel-box">
 		<div class="titles">
 			<h4>Sports Experts</h4>
 		</div>
@@ -209,6 +180,7 @@
 
 		</div>
 	</div>
+	 -->
 	<!-- End Experts -->
 </div>
 <!-- End content Left -->
@@ -252,12 +224,11 @@
 	</div>
 	<!-- End Locations -->
 
-	<!-- Video presentation -->
+	<!-- Video presentation --><!-- 
 	<div class="panel-box">
 		<div class="titles">
 			<h4>Presentation</h4>
 		</div>
-		<!-- Locations Video -->
 		<div class="row">
 			<div class="col-md-12">
 				<h4>Rio de Janeiro</h4>
@@ -267,8 +238,7 @@
 					ea commodo cillum dolore eu fugiat nulla pariatur.</p>
 			</div>
 		</div>
-		<!-- End Locations Video -->
-	</div>
+	</div>-->
 	<!-- End Video presentation-->
 
 	<!-- Widget Text-->
@@ -350,12 +320,12 @@
 	<!-- End Diary -->
 
 	<!-- Adds Sidebar -->
-	<div class="panel-box">
+	<!-- <div class="panel-box">
 		<a href="#"
 			target="_blank"> <img src='<c:url value="/resources/img/adds/sidebar.png"/>'
 			class="img-responsive" alt="">
 		</a>
-	</div>
+	</div> -->
 	<!-- End Adds Sidebar -->
 </aside>
 <!-- End content Sidebar Right -->

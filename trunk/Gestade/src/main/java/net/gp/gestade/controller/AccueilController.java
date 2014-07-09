@@ -1,48 +1,36 @@
 package net.gp.gestade.controller;
 
-import java.util.Date;
-import java.util.List;
+import java.util.Calendar;
 
 import javax.servlet.http.HttpSession;
 
 import net.gp.gestade.Utils.AccountValidator;
-import net.gp.gestade.Utils.CovosoUtils;
+import net.gp.gestade.Utils.Utils;
 import net.gp.gestade.Utils.LoginValidator;
 import net.gp.gestade.Utils.MenuBuild;
-import net.gp.gestade.Utils.PagedGenericView;
 import net.gp.gestade.Utils.SessionManage;
-import net.gp.gestade.Utils.StadeValidator;
 import net.gp.gestade.form.Account;
-import net.gp.gestade.form.Equipment;
-import net.gp.gestade.form.Schedule;
-import net.gp.gestade.form.Stade;
-import net.gp.gestade.service.StadeService;
 import net.gp.gestade.service.AccountService;
-import net.gp.gestade.service.ScheduleService;
-import net.gp.gestade.service.EquipmentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import freemarker.core.Expression;
 
 @Controller
-//@SessionAttributes({ "utilisateur", "compte", "admin" })
 public class AccueilController {
 	@Autowired
 	private AccountService accountService;
 	@RequestMapping("/")
-	public ModelAndView accueil(ModelMap map) {
+	public ModelAndView accueil(ModelMap map,HttpSession session) {
 		ModelAndView mv = new ModelAndView("accueil");
-		
+
+		mv.addObject("menu", MenuBuild.getMenu("accueil",session));
 		return mv;
 	}
 	// 1. Login
@@ -52,13 +40,13 @@ public class AccueilController {
 		if (sessionManage.getAccount()== null) {
 			ModelAndView mv = new ModelAndView("login");
 			mv.addObject("account", new Account());
-			mv.addObject("menu", MenuBuild.AvantLogin("s'identifier"));
+			mv.addObject("barpath","Login");
+			mv.addObject("menu", MenuBuild.getMenu("s'identifier",session));
 			return mv;
 		} else {
 			ModelAndView mv = new ModelAndView("accueil");
-//			mv.addObject("recherchebox", new Annonce());
-//			mv.addObject("listVille", annonceService.allVille());
-			mv.addObject("menu", MenuBuild.ApresLogin("accueil"));
+			mv.addObject("barpath","Login");
+			mv.addObject("menu", MenuBuild.getMenu("s'identifier",session));
 			return mv;
 		}
 	}
@@ -75,12 +63,13 @@ public class AccueilController {
 		if (result.hasErrors()) {
 			message = "Les donnees incorrectes";
 			
-			mv.addObject("account", new Account());
+			mv.addObject("account", account);
 			mv.addObject("message", message);
-			mv.addObject("menu", MenuBuild.AvantLogin("s'identifier"));
+			mv.addObject("menu", MenuBuild.getMenu("s'identifier",session));
+			
 			return mv;
 		} else {
-			newacc = accountService.login(account.getPhonenumber(),
+			newacc = accountService.login(account.getUsername(),
 					account.getPassword());
 			if (newacc != null) {
 				sessionManage.setAccount(newacc);
@@ -92,14 +81,51 @@ public class AccueilController {
 				return new ModelAndView("redirect:/");
 			} else {
 				message = "Compte n'existe pas";
-				mv.addObject("account", new Account());
+				mv.addObject("account", account);
 				mv.addObject("message", message);
-				mv.addObject("menu", MenuBuild.AvantLogin("s'identifier"));
+				mv.addObject("menu", MenuBuild.getMenu("s'identifier",session));
 				return mv;
 			}
 		}
 	}
+	// 3. Inscription le nouveau utilisateur
+		@RequestMapping("/inscription")
+		public ModelAndView getInscription(HttpSession session) {
+			ModelAndView mv = new ModelAndView("inscription");
+			Account account = new Account();
+			mv.addObject("account", account);
+			mv.addObject("barpath","Inscription");
+			mv.addObject("menu", MenuBuild.getMenu("inscription",session));	
+			return mv;
+		}
 
+		@RequestMapping(value = "/inscription", method = RequestMethod.POST)
+		public ModelAndView postInscription(
+				@ModelAttribute("account") Account account, BindingResult result,
+				ModelMap map,HttpSession session) {
+			ModelAndView mv = new ModelAndView("inscription");
+			try {
+				AccountValidator accountValid = new AccountValidator();
+				accountValid.validate(account, result);
+				if (result.hasErrors()) {
+					mv.addObject("message",
+							"Certains champs manquent des informations");
+				} else {
+					account.setDateCreate(Utils.getSimpleDateFormat(Calendar.getInstance().getTime()));
+					account.setStatus("admin");
+					account.setLastLogin(Utils.getSimpleDateFormat(Calendar.getInstance().getTime()));
+					accountService.add(account);
+					
+					mv.addObject("message", "Inscription succes");
+				}
+			} catch (Exception e) {
+				mv.addObject("message", "Certains champs manquent des informations");
+			}
+			mv.addObject("account",account);
+			mv.addObject("barpath","Inscription page");
+			mv.addObject("menu", MenuBuild.getMenu("inscription",session));	
+			return mv;
+		}
 	//
 	// 2.Logout
 	@RequestMapping("/logout")
@@ -112,18 +138,13 @@ public class AccueilController {
 	}
 
 	// Page d'introduction de notre groupe
-	@RequestMapping("/about")
-	public ModelAndView about(ModelMap map) {
+	@RequestMapping("/aboutus")
+	public ModelAndView about(ModelMap map,HttpSession session) {
 
-		if (map.get("utilisateur") == null) {
-			ModelAndView mv = new ModelAndView("about");
-			//mv.addObject("menu", MenuBuild.AvantLogin("a propos nous"));
-			return mv;
-		} else {
-			ModelAndView mv = new ModelAndView("about");
-			//mv.addObject("menu", MenuBuild.ApresLogin("a propos nous"));
-			return mv;
-		}
+		ModelAndView mv = new ModelAndView("aboutus");
+		mv.addObject("barpath","À Propos Nous");
+		mv.addObject("menu", MenuBuild.getMenu("A propos nous",session));
+		return mv;
 	}
 	
 	

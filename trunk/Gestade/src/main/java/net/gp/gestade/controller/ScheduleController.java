@@ -1,5 +1,7 @@
 package net.gp.gestade.controller;
 
+import javax.servlet.http.HttpSession;
+
 import net.gp.gestade.Utils.MenuBuild;
 import net.gp.gestade.Utils.PagedGenericView;
 import net.gp.gestade.Utils.ScheduleValidator;
@@ -23,18 +25,18 @@ public class ScheduleController {
 	private ScheduleService sService;
 
 	@RequestMapping("/index")
-	public ModelAndView Index() {
-		return this.mvIndex(null, new Schedule(), "Add Schedule",
-				"/Gestade/schedule/add");
+	public ModelAndView Index(HttpSession session) {
+		return this.mvIndex(null, new Schedule(), null,
+				"/Gestade/schedule/add",session);
 	}
 	@RequestMapping("/add")
-	public ModelAndView Add() {
-		return this.mvIndex(null, new Schedule(), "Add Schedule",
-				"/Gestade/schedule/add");
+	public ModelAndView Add(HttpSession session) {
+		return this.mvIndex(null, new Schedule(), null,
+				"/Gestade/schedule/add",session);
 	}
 	
 	@RequestMapping("/index/{index}")
-	public ModelAndView Index(@PathVariable("index") Integer index) {
+	public ModelAndView Index(@PathVariable("index") Integer index,HttpSession session) {
 		ModelAndView mv = new ModelAndView("schedule/index");
 		mv.addObject("schedule", new Schedule());
 		mv.addObject("message", null);
@@ -53,12 +55,15 @@ public class ScheduleController {
 				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
+		mv.addObject("barpath","Page de Gestion d'emploi du temps");
+		mv.addObject("admenu", MenuBuild.getAdminMenu("schedule",session));
+		
 		return mv;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView Add(@ModelAttribute("schedule") Schedule schedule,
-			BindingResult result) {
+			BindingResult result,HttpSession session) {
 		ScheduleValidator scheduleValidator = new ScheduleValidator();
 		scheduleValidator.validate(schedule, result);
 		String message = "";
@@ -71,23 +76,23 @@ public class ScheduleController {
 			message = "Suc";
 			re = schedule;
 		}
-		return this.mvIndex(message, re, "Add Schedule",
-				"/Gestade/schedule/add");
+		return this.mvIndex(message, re, null,
+				"/Gestade/schedule/add",session);
 	}
 
 	@RequestMapping("/edit/{scheduleID}")
 	public ModelAndView edit(
-			@PathVariable("scheduleID") Integer scheduleID) {
+			@PathVariable("scheduleID") Integer scheduleID,HttpSession session) {
 		return this.mvIndex(null, sService.single(scheduleID),
-				"Update Schedule", "/Gestade/schedule/edit/"
-						+ scheduleID);
+				null, "/Gestade/schedule/edit/"
+						+ scheduleID,session);
 	}
 
 	@RequestMapping(value = "/edit/{scheduleID}", method = RequestMethod.POST)
 	public ModelAndView editPage(
 			@PathVariable("scheduleID") Integer scheduleID,
 			@ModelAttribute("schedule") Schedule schedule,
-			BindingResult result) {
+			BindingResult result,HttpSession session) {
 		ScheduleValidator scheduleValidator = new ScheduleValidator();
 		scheduleValidator.validate(schedule, result);
 		String message = "";
@@ -109,22 +114,22 @@ public class ScheduleController {
 			message = "Successful update";
 			re = schedule;
 		}
-		return this.mvIndex(message, new Schedule(), "Add Schedule",
-				"/Gestade/schedule/add");
+		return this.mvIndex(message, new Schedule(), null,
+				"/Gestade/schedule/add",session);
 	}
 	@RequestMapping("/delete/{scheduleID}")
 	public ModelAndView delete(
-			@PathVariable("scheduleID") Integer scheduleID) {
+			@PathVariable("scheduleID") Integer scheduleID,HttpSession session) {
 
 		sService.delete(scheduleID);
 		return this.mvIndex("Successful add", new Schedule(),
-				"Add Schedule", "/Gestade/schedule/add");
+				null, "/Gestade/schedule/add",session);
 	}
 
 	// la procedure commun
 	public ModelAndView mvIndex(String message,
  Schedule schedule, String title,
-			String action) {
+			String action,HttpSession session) {
 		ModelAndView mv = new ModelAndView("schedule/index");
 		mv.addObject("schedule", schedule);
 		mv.addObject("message", message);
@@ -138,7 +143,8 @@ public class ScheduleController {
 				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
-		mv.addObject("admenu", MenuBuild.AdminLogin("Annonce"));
+		mv.addObject("barpath","Page de Gestion d'emploi du temps");
+		mv.addObject("admenu", MenuBuild.getAdminMenu("schedule",session));
 		return mv;
 	}
 }

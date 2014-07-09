@@ -2,13 +2,71 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
+<c:if test="${!empty uList.entities}">
+	<div class="panel-box">
+		<div class="titles">
+			<h4>Liste de Stade</h4>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Name</th>
+							<th>Position</th>
+							<th>Type</th>
+							<th>State</th>
+							<th>Edit</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${uList.entities}" var="stade">
+							<tr>
+								<td>${stade.stadeID}</td>
+								<td>${stade.name}</td>
+								<td>${stade.position}</td>
+								<td>${stade.type}</td>
+								<td>${stade.state}</td>
+								<td><a href="/Gestade/stade/edit/${stade.stadeID}">edit</a></td>
+								<td><a href="/Gestade/stade/delete/${stade.stadeID}">delete</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 
-	<div class="row">
-		<div class="col-md-12">
-			<h2>Stade Management</h2>
+			</div>
+			<div class="col-md-12">
+				<ul class="pagination pagination-sm">
+
+					<c:if test="${!uList.nav.firstPage}">
+
+						<li><a href="/Gestade/stade/index">«</a></li>
+					</c:if>
+					<c:forEach var="i" items="${uList.nav.indexList}">
+						<c:choose>
+							<c:when test="${i != uList.nav.currentPage}">
+								<li><a href="/Gestade/stade/index/${i}">${i}</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a class="active" href="#">${i}</a></li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:if test="${!uList.nav.lastPage}">
+						<li><a href="/Gestade/stade/index/${uList.nav.pageCount}">»</a></li>
+					</c:if>
+				</ul>
+
+			</div>
 		</div>
 	</div>
-
+</c:if>
+<div class="panel-box">
+	<div class="titles">
+		<h4>Ajoute d'un Stade</h4>
+	</div>
 	<form:form class="form-theme" method="post" action="${action}"
 		commandName="stade">
 		<div class="row">
@@ -17,7 +75,6 @@
 				<div class="alert alert-success">${message}</div>
 
 			</c:if>
-			<h4><c:if test="${!empty title}">${title}</c:if></h4>
 			<div class="form-group">
 				<div class="col-md-6">
 					<form:label path="name">
@@ -69,62 +126,4 @@
 			</div>
 		</div>
 	</form:form>
-
-<c:if test="${!empty uList.entities}">
-	<div class="row">
-		<div class="col-md-12">
-
-			<h4>Data list</h4>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Name</th>
-						<th>Position</th>
-						<th>Type</th>
-						<th>State</th>
-						<th>Edit</th>
-						<th>Delete</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${uList.entities}" var="stade">
-						<tr>
-							<td>${stade.stadeID}</td>
-							<td>${stade.name}</td>
-							<td>${stade.position}</td>
-							<td>${stade.type}</td>
-							<td>${stade.state}</td>
-							<td><a href="/Gestade/stade/edit/${stade.stadeID}">edit</a></td>
-							<td><a href="/Gestade/stade/delete/${stade.stadeID}">delete</a></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-
-		</div>
-		<div class="col-md-12">
-			<ul class="pagination pagination-sm">
-
-				<c:if test="${!uList.nav.firstPage}">
-				
-					<li><a href="/Gestade/stade/index">«</a></li>
-				</c:if>
-				<c:forEach var="i" items="${uList.nav.indexList}">
-					<c:choose>
-						<c:when test="${i != uList.nav.currentPage}">
-							<li><a href="/Gestade/stade/index/${i}">${i}</a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a class="active" href="#">${i}</a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-				<c:if test="${!uList.nav.lastPage}">
-				<li><a href="/Gestade/stade/index/${uList.nav.pageCount}">»</a></li>
-				</c:if>
-			</ul>
-
-		</div>
-	</div>
-</c:if>
+</div>

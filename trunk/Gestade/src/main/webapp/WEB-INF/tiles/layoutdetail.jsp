@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
- <head>
+<head>
         <!-- Basic -->
         <meta charset="utf-8">
         <title><tiles:insertAttribute name="title" ignore="true" /></title>
@@ -23,8 +23,7 @@
 
         <!-- Head Libs -->
         <script src='<c:url value="/resources/js/modernizr.js"/>'></script>
-
-        <!--[if IE]>
+       <!--[if IE]>
             <link rel="stylesheet" href='<c:url value="/resources/css/ie/ie.css"/>'>
         <![endif]-->
 
@@ -35,52 +34,52 @@
 
         <!-- Skins Changer-->
         <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-
-    </head>
+  
+</head>
 
 <body>
 	<!-- layout-->
 	<div id="layout">
 		<!-- Header-->
-		<header> <tiles:insertAttribute name="header" /> <tiles:insertAttribute
-			name="menu" /> </header>
-		<!-- End Header-->
-
+		<header>
+			<tiles:insertAttribute name="header" />
+			<tiles:insertAttribute name="menu" />
+		 </header>
 		<tiles:insertAttribute name="bartitle" />
-
-
-		<!-- Section Area - Content Central -->
-
-		<!-- Content Central -->
-		<section class="content-info"> 
-		<div class="crumbs">
-			<div class="container">
-				<ul>
-					<li><a href="/">Accueil</a></li>
-					<li>/</li>
-					<li><a href="#">Fonctions</a></li>
-					<li>/</li>
-					<li>${barpath}</li>
-				</ul>
+		<section class="content-info">
+			<div class="crumbs">
+				<div class="container">
+					<ul>
+						<li><a href="/">Accueil</a></li>
+						<li>/</li>
+						<li><a href="#">Fonctions</a></li>
+						<li>/</li>
+						<li>${barpath}</li>
+					</ul>
+				</div>
 			</div>
-		</div>
 
 
-		<div class="semiboxshadow text-center">
-			<img src='<c:url value="/resources/img/img-theme/shp.png"/>'
-				class="img-responsive" alt="">
-		</div>
-		<div class="container padding-top-mini">
-			<tiles:insertAttribute name="body" />
-		</div>
-		<tiles:insertAttribute name="sponsor" /> 
+			<div class="semiboxshadow text-center">
+				<img src='<c:url value="/resources/img/img-theme/shp.png"/>'
+					class="img-responsive" alt="">
+			</div>
+			<div class="container padding-top-mini">
+			<div class="row">
+				<tiles:insertAttribute name="body" />
+			</div>
+			</div>
+			<!-- End Content Central --> 
+			<tiles:insertAttribute name="sponsor" />
+		<!-- End Newsletter --> 
 		</section>
 		<!-- End Section Area - Content Central -->
 		<tiles:insertAttribute name="footer" />
 		<tiles:insertAttribute name="footerdown" />
 
 	</div>
-	    <!-- End layout-->
+	<!-- End layout-->
+ <!-- End layout-->
  		<!-- ======================= JQuery libs =========================== -->
         <!-- jQuery local--> 
         <script src='<c:url value="/resources/js/jquery-2.1.1.min.js"/>'></script>          
