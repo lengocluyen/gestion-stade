@@ -23,8 +23,7 @@
 
         <!-- Head Libs -->
         <script src='<c:url value="/resources/js/modernizr.js"/>'></script>
-
-        <!--[if IE]>
+       <!--[if IE]>
             <link rel="stylesheet" href='<c:url value="/resources/css/ie/ie.css"/>'>
         <![endif]-->
 
@@ -35,46 +34,7 @@
 
         <!-- Skins Changer-->
         <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-         <!-- ======================= JQuery libs =========================== -->
-        <!-- jQuery local--> 
-        <script src='<c:url value="/resources/js/jquery.js"/>'></script>                
-        <!--Nav-->
-        <script type="text/javascript" src='<c:url value="/resources/js/nav/tinynav.js"/>'></script> 
-        <script type="text/javascript" src='<c:url value="/resources/js/nav/hoverIntent.js"/>'></script>   
-        <script type="text/javascript" src='<c:url value="/resources/js/nav/superfish.js"/>'></script> 
-        <script src='<c:url value="/resources/js/nav/jquery.sticky.js"/>' type="text/javascript"></script>    
-        <!--Totop-->
-        <script type="text/javascript" src='<c:url value="/resources/js/totop/jquery.ui.totop.js"/>' ></script>  
-         <!--Accorodion-->
-        <script type="text/javascript" src='<c:url value="/resources/js/accordion/accordion.js"/>' ></script>  
-        <!--Slide-->
-        <script type="text/javascript" src='<c:url value="/resources/js/slide/camera.js"/>' ></script>      
-        <script type='text/javascript' src='<c:url value="/resources/js/slide/jquery.easing.1.3.min.js"/>'></script>   
-        <!-- Maps -->
-        <script src='<c:url value="/resources/js/maps/gmap3.js"/>'></script>            
-        <!--Ligbox--> 
-        <script type="text/javascript" src='<c:url value="/resources/js/fancybox/jquery.fancybox.js"/>'></script> 
-        <!-- carousel.js-->
-        <script src='<c:url value="/resources/js/carousel/carousel.js"/>'></script>
-        <!-- Filter -->
-        <script src='<c:url value="/resources/js/filters/jquery.isotope.js"/>' type="text/javascript"></script>
-        <!-- Counter -->
-        <script src='<c:url value="/resources/js/counter/jquery.countdown.js"/>'></script>      
-        <!--Theme Options-->
-        <script type="text/javascript" src='<c:url value="/resources/js/theme-options/theme-options.js"/>'></script>
-        <script type="text/javascript" src='<c:url value="/resources/js/theme-options/jquery.cookies.js"/>'></script> 
-        <!-- Bootstrap.js-->
-        <script type="text/javascript" src='<c:url value="/resources/js/bootstrap/bootstrap.js"/>'></script> 
-        <!--MAIN FUNCTIONS-->
-        <script type="text/javascript" src='<c:url value="/resources/js/main.js"/>'></script>
-        <!-- ======================= End JQuery libs =========================== -->
-	<script>
-	$(document).ready(function() {
-		 $('#slide').camera({        
-			    height: 'auto'
-			  });  
-	});
-	</script> 
+  
     </head>
 
     <body>
@@ -93,10 +53,14 @@
             </header>
             <!-- End Header-->
             
-            <!-- Slide -->           
-           <tiles:insertAttribute name="slidepartie" />
-            
-            <!-- End Slide --> 
+             <!-- Section Title -->           
+            <section class="section-title img-sports section-sports">
+                <div class="overlay-bg"></div>
+                <div class="container">
+                    <h1>Sports</h1>
+                </div>
+            </section>
+            <!-- End Section Title --> 
 
             <!-- Section Area - Content Central -->
             <section class="content-info">
@@ -122,7 +86,6 @@
                 <div class="container padding-top">
                     <div class="row">
                         <tiles:insertAttribute name="body" />
-                        
                     </div>                     
                 </div>  
                 <!-- End Content Central -->
@@ -142,7 +105,35 @@
 
         </div>
         <!-- End layout-->
-
+ 		<!-- ======================= JQuery libs =========================== -->
+        <!-- jQuery local--> 
+        <script src='<c:url value="/resources/js/jquery-2.1.1.min.js"/>'></script>          
+        <!--Nav-->
+        <script type="text/javascript" src='<c:url value="/resources/js/nav/tinynav.js"/>'></script> 
+        <script type="text/javascript" src='<c:url value="/resources/js/nav/hoverIntent.js"/>'></script>   
+        <script type="text/javascript" src='<c:url value="/resources/js/nav/superfish.js"/>'></script> 
+        <script type="text/javascript" src='<c:url value="/resources/js/nav/jquery.sticky.js"/>'></script> 
+        
+        <!--Totop-->
+        <script type="text/javascript" src='<c:url value="/resources/js/totop/jquery.ui.totop.js"/>' ></script>  
+         <!--Accorodion-->
+        <script type="text/javascript" src='<c:url value="/resources/js/accordion/accordion.js"/>' ></script>  
+        <!--Ligbox--> 
+        <script type="text/javascript" src='<c:url value="/resources/js/fancybox/jquery.fancybox.js"/>'></script> 
+        <!-- carousel.js-->
+        <script src='<c:url value="/resources/js/carousel/carousel.js"/>'></script>
+        <!-- Filter -->
+        <script src='<c:url value="/resources/js/filters/jquery.isotope.js"/>' type="text/javascript"></script>
+        <!-- Counter -->
+        <script src='<c:url value="/resources/js/counter/jquery.countdown.js"/>'></script>      
+        <!--Theme Options-->
+        <script type="text/javascript" src='<c:url value="/resources/js/theme-options/theme-options.js"/>'></script>
+        <!-- Bootstrap.js-->
+        <script type="text/javascript" src='<c:url value="/resources/js/bootstrap/bootstrap.js"/>'></script> 
+        <!--MAIN FUNCTIONS-->
+        <script type="text/javascript" src='<c:url value="/resources/js/main.js"/>'></script>
+        <!-- ======================= End JQuery libs =========================== -->
    
     </body>
+     
 </html>

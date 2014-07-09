@@ -18,14 +18,14 @@ public class AccountValidator implements Validator {
 		Account entity = (Account) target;
 
 		if (entity.getPhonenumber() == null||entity.getPhonenumber()=="") {
-			errors.rejectValue("Phone Number", "*");
+			errors.rejectValue("phonenumber", "*");
 		}
 		
 		if (entity.getUsername() == null) {
-			errors.rejectValue("UserName", "*");
+			errors.rejectValue("username", "*");
 		}
 		if (entity.getFullname()==null) {
-			errors.rejectValue("Full Name", "*");
+			errors.rejectValue("fullname", "*");
 		}
 	}
 

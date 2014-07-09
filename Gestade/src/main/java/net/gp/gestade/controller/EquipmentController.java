@@ -1,5 +1,7 @@
 package net.gp.gestade.controller;
 
+import javax.servlet.http.HttpSession;
+
 import net.gp.gestade.Utils.MenuBuild;
 import net.gp.gestade.Utils.PagedGenericView;
 import net.gp.gestade.Utils.EquipmentValidator;
@@ -23,18 +25,18 @@ public class EquipmentController {
 	private EquipmentService eService;
 
 	@RequestMapping("/index")
-	public ModelAndView Index() {
+	public ModelAndView Index(HttpSession session) {
 		return this.mvIndex(null, new Equipment(), "Adds equipment",
-				"/Gestade/equipment/add");
+				"/Gestade/equipment/add",session);
 	}
 	@RequestMapping("/add")
-	public ModelAndView Add() {
+	public ModelAndView Add(HttpSession session) {
 		return this.mvIndex(null, new Equipment(), "Adds equipment",
-				"/Gestade/equipment/add");
+				"/Gestade/equipment/add",session);
 	}
 	
 	@RequestMapping("/index/{index}")
-	public ModelAndView Index(@PathVariable("index") Integer index) {
+	public ModelAndView Index(@PathVariable("index") Integer index,HttpSession session) {
 		ModelAndView mv = new ModelAndView("equipment/index");
 		mv.addObject("equipment", new Equipment());
 		mv.addObject("message", null);
@@ -53,12 +55,14 @@ public class EquipmentController {
 				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
+		mv.addObject("barpath","Page de Gestion d'equipment");
+		mv.addObject("admenu", MenuBuild.getAdminMenu("equipment",session));
 		return mv;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView Add(@ModelAttribute("equipment") Equipment equipment,
-			BindingResult result) {
+			BindingResult result,HttpSession session) {
 		EquipmentValidator equipmentValidator = new EquipmentValidator();
 		equipmentValidator.validate(equipment, result);
 		String message = "";
@@ -71,23 +75,23 @@ public class EquipmentController {
 			message = "Successful add";
 			re = equipment;
 		}
-		return this.mvIndex(message, re, "Adds equipment",
-				"/Gestade/equipment/add");
+		return this.mvIndex(message, re, null,
+				"/Gestade/equipment/add",session);
 	}
 
 	@RequestMapping("/edit/{equipmentID}")
 	public ModelAndView edit(
-			@PathVariable("equipmentID") Integer equipmentID) {
+			@PathVariable("equipmentID") Integer equipmentID,HttpSession session) {
 		return this.mvIndex(null, eService.single(equipmentID),
 				"Update equipment", "/Gestade/equipment/edit/"
-						+ equipmentID);
+						+ equipmentID,session);
 	}
 
 	@RequestMapping(value = "/edit/{equipmentID}", method = RequestMethod.POST)
 	public ModelAndView editPage(
 			@PathVariable("equipmentID") Integer equipmentID,
 			@ModelAttribute("equipment") Equipment equipment,
-			BindingResult result) {
+			BindingResult result,HttpSession session) {
 		EquipmentValidator equipmentValidator = new EquipmentValidator();
 		equipmentValidator.validate(equipment, result);
 		String message = "";
@@ -105,22 +109,22 @@ public class EquipmentController {
 			message = "Successful update";
 			re = equipment;
 		}
-		return this.mvIndex(message, new Equipment(), "Adds equipment",
-				"/Gestade/equipment/add");
+		return this.mvIndex(message, new Equipment(), null,
+				"/Gestade/equipment/add",session);
 	}
 	@RequestMapping("/delete/{equipmentID}")
 	public ModelAndView delete(
-			@PathVariable("equipmentID") Integer equipmentID) {
+			@PathVariable("equipmentID") Integer equipmentID,HttpSession session) {
 
 		eService.remove(equipmentID);
 		return this.mvIndex("Succesful delete", new Equipment(),
-				"Adds equipment", "/Gestade/equipment/add");
+				null, "/Gestade/equipment/add",session);
 	}
 
 	// la procedure commun
 	public ModelAndView mvIndex(String message,
 			Equipment equipment, String title,
-			String action) {
+			String action,HttpSession session) {
 		ModelAndView mv = new ModelAndView("equipment/index");
 		mv.addObject("equipment", equipment);
 		mv.addObject("message", message);
@@ -134,7 +138,8 @@ public class EquipmentController {
 				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
-		mv.addObject("admenu", MenuBuild.AdminLogin("Annonce"));
+		mv.addObject("barpath","Page de Gestion d'equipment");
+		mv.addObject("admenu", MenuBuild.getAdminMenu("equipment",session));
 		return mv;
 	}
 }

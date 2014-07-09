@@ -1,24 +1,9 @@
-// THEME OPTIONS.JS
-//--------------------------------------------------------------------------------------------------------------------------------
-//This is JS file that contains skin, layout Style and bg used in this template*/
-// -------------------------------------------------------------------------------------------------------------------------------
-// Template Name: Sports Cup- Responsive HTML5  soccer and sports Template.
-// Author: Iwthemes.
-// Name File: theme-options.js
-// Version 1.0 - Created on 20 May 2014
-// Website: http://www.iwthemes.com 
-// Email: support@iwthemes.com
-// Copyright: (C) 2014
-// -------------------------------------------------------------------------------------------------------------------------------
-
   $(document).ready(function($) {
-
-  	/* Selec your skin and layout Style */
 
 	function interface(){
 
     // Skin value
-    var skin = "purple"; // green (default), red ,yellow,purple,blue, orange, purple, pink, cocoa, custom 
+    var skin = "orange"; // green (default), red ,yellow,purple,blue, orange, purple, pink, cocoa, custom 
 
     // Boxed value
     var layout = "layout-semiboxed"; // layout-semiboxed(default), layout-boxed, layout-boxed-margin ,layout-wide
@@ -29,7 +14,7 @@
     // Theme Panel - disable panel options
     var themepanel = "1"; // 1 (default - enable), 0 ( disable)
 
-    $(".skin").attr("href", "resources/css/skins/"+ skin + "/" + skin + ".css");
+    $(".skin").attr("href", "http://localhost:8080/Gestade/resources/css/skins/"+ skin + "/" + skin + ".css");
     $("#layout").addClass(layout);	
     $("body").addClass(bg);   
     $("#theme-options").css('opacity' , themepanel);
@@ -83,23 +68,23 @@
 
     // Color changer
     $(".red").click(function(){
-	   	$(".skin").attr("href", "css/skins/red/red.css");
+	   	$(".skin").attr("href", "http://localhost:8080/Gestade/resources/css/skins/red/red.css");
 	    return false;
 	});
 	$(".blue").click(function(){
-	    $(".skin").attr("href", "css/skins/blue/blue.css");
+	    $(".skin").attr("href", "http://localhost:8080/Gestade/resources/css/skins/blue/blue.css");
 	    return false;
 	});
 	$(".yellow").click(function(){
-	    $(".skin").attr("href", "css/skins/yellow/yellow.css");
+	    $(".skin").attr("href", "http://localhost:8080/Gestade/resources/css/skins/yellow/yellow.css");
 	    return false;
 	});
 	$(".green").click(function(){
-	    $(".skin").attr("href", "css/skins/green/green.css");
+	    $(".skin").attr("href", "http://localhost:8080/Gestade/resources/css/skins/green/green.css");
 	    return false;
 	});
 	$(".orange").click(function(){
-    	$(".skin").attr("href", "css/skins/orange/orange.css");
+    	$(".skin").attr("href", "http://localhost:8080/Gestade/resources/css/skins/orange/orange.css");
     	return false;
 	});
 	$(".purple").click(function(){

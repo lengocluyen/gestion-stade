@@ -4,12 +4,6 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="text-center">
-					<h2>
-						We have earned the trust of <span class="text-resalt">25,869</span>
-						partners.
-					</h2>
-					<p>Duis non lorem porta, eros sit amet, tempor sem. semper a
-						tempus et.</p>
 				</div>
 				<ul id="sponsors" class="tooltip-hover">
 					<li data-toggle="tooltip" title data-original-title="Name Sponsor">

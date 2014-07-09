@@ -1,5 +1,7 @@
 package net.gp.gestade.controller;
 
+import javax.servlet.http.HttpSession;
+
 import net.gp.gestade.Utils.MenuBuild;
 import net.gp.gestade.Utils.PagedGenericView;
 import net.gp.gestade.Utils.StadeValidator;
@@ -23,18 +25,18 @@ public class StadeController {
 	private StadeService sService;
 
 	@RequestMapping("/index")
-	public ModelAndView Index() {
-		return this.mvIndex(null, new Stade(), "Add Stade",
-				"/Gestade/stade/add");
+	public ModelAndView Index(HttpSession session) {
+		return this.mvIndex(null, new Stade(), null,
+				"/Gestade/stade/add",session);
 	}
 	@RequestMapping("/add")
-	public ModelAndView Add() {
-		return this.mvIndex(null, new Stade(), "Add Stade",
-				"/Gestade/stade/add");
+	public ModelAndView Add(HttpSession session) {
+		return this.mvIndex(null, new Stade(), null,
+				"/Gestade/stade/add",session);
 	}
 	
 	@RequestMapping("/index/{index}")
-	public ModelAndView Index(@PathVariable("index") Integer index) {
+	public ModelAndView Index(@PathVariable("index") Integer index,HttpSession session) {
 		ModelAndView mv = new ModelAndView("stade/index");
 		mv.addObject("stade", new Stade());
 		mv.addObject("message", null);
@@ -53,12 +55,15 @@ public class StadeController {
 				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
+		mv.addObject("barpath","Page de Gestion de Stade");
+		mv.addObject("admenu", MenuBuild.getAdminMenu("stade",session));
+		
 		return mv;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView Add(@ModelAttribute("stade") Stade stade,
-			BindingResult result) {
+			BindingResult result,HttpSession session) {
 		StadeValidator stadeValidator = new StadeValidator();
 		stadeValidator.validate(stade, result);
 		String message = "";
@@ -71,23 +76,23 @@ public class StadeController {
 			message = "Suc";
 			re = stade;
 		}
-		return this.mvIndex(message, re, "Add Stade",
-				"/Gestade/stade/add");
+		return this.mvIndex(message, re, null,
+				"/Gestade/stade/add",session);
 	}
 
 	@RequestMapping("/edit/{stadeID}")
 	public ModelAndView edit(
-			@PathVariable("stadeID") Integer stadeID) {
+			@PathVariable("stadeID") Integer stadeID,HttpSession session) {
 		return this.mvIndex(null, sService.single(stadeID),
 				"Update Stade", "/Gestade/stade/edit/"
-						+ stadeID);
+						+ stadeID,session);
 	}
 
 	@RequestMapping(value = "/edit/{stadeID}", method = RequestMethod.POST)
 	public ModelAndView editPage(
 			@PathVariable("stadeID") Integer stadeID,
 			@ModelAttribute("stade") Stade stade,
-			BindingResult result) {
+			BindingResult result,HttpSession session) {
 		StadeValidator stadeValidator = new StadeValidator();
 		stadeValidator.validate(stade, result);
 		String message = "";
@@ -106,22 +111,22 @@ public class StadeController {
 			message = "Successful update";
 			re = stade;
 		}
-		return this.mvIndex(message, new Stade(), "Add Stade",
-				"/Gestade/stade/add");
+		return this.mvIndex(message, new Stade(), null,
+				"/Gestade/stade/add",session);
 	}
 	@RequestMapping("/delete/{stadeID}")
 	public ModelAndView delete(
-			@PathVariable("stadeID") Integer stadeID) {
+			@PathVariable("stadeID") Integer stadeID,HttpSession session) {
 
 		sService.delete(stadeID);
 		return this.mvIndex("Successful add", new Stade(),
-				"Add Stade", "/Gestade/stade/add");
+				"Add Stade", "/Gestade/stade/add",session);
 	}
 
 	// la procedure commun
 	public ModelAndView mvIndex(String message,
  Stade stade, String title,
-			String action) {
+			String action,HttpSession session) {
 		ModelAndView mv = new ModelAndView("stade/index");
 		mv.addObject("stade", stade);
 		mv.addObject("message", message);
@@ -135,7 +140,9 @@ public class StadeController {
 				.getCurrentPage(), ulist.getNav().getPageSize()));
 
 		mv.addObject("uList", ulist);
-		mv.addObject("admenu", MenuBuild.AdminLogin("Annonce"));
+
+		mv.addObject("barpath","Page de Gestion de Stade");
+		mv.addObject("admenu", MenuBuild.getAdminMenu("stade",session));
 		return mv;
 	}
 }

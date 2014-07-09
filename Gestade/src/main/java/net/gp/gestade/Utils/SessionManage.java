@@ -19,11 +19,11 @@ public class SessionManage {
 		if (account != null)
 			return account;
 		else
-			return (Account) session.getAttribute("Account");
+			return (Account) session.getAttribute("account");
 	}
 
 	public void setAccount(Account account) {
-		session.setAttribute("Account", account);
+		session.setAttribute("account", account);
 		this.account = account;
 	}
 
@@ -31,11 +31,11 @@ public class SessionManage {
 		if (isLogin != null)
 			return isLogin;
 		else
-			return (Boolean) session.getAttribute("IsLogin");
+			return (Boolean) session.getAttribute("islogin");
 	}
 
 	public void setIsLogin(Boolean isLogin) {
-		session.setAttribute("IsLogin", isLogin);
+		session.setAttribute("isLogin", isLogin);
 		this.isLogin = isLogin;
 	}
 
@@ -43,11 +43,11 @@ public class SessionManage {
 		if (isAdmin != null)
 			return isAdmin;
 		else
-			return (Boolean) session.getAttribute("IsAdmin");
+			return (Boolean) session.getAttribute("isadmin");
 	}
 
 	public void setIsAdmin(Boolean isAdmin) {
-		session.setAttribute("IsAdmin", isAdmin);
+		session.setAttribute("isadmin", isAdmin);
 		this.isAdmin = isAdmin;
 	}
 

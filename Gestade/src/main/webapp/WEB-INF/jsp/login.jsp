@@ -1,39 +1,39 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<div id="login">
-	<div class="content-box">
-		<div class="content-box-header">
-			<h3>Login</h3>
-		</div>
 
-		<div class="content-box-content">
-			<c:if test="${!empty message}">
-				<div class="notification information">${message}</div>
-			</c:if>
-
-			<form:form method="post" action="/Covoso/login" commandName="compte">
-				<div class="login-box">
-					<span> <form:label path="login">
-							<spring:message code="label.username" />
+<div class="row">
+	<div class="col-md-12">
+		<h2>Login Page</h2>
+	</div>
+</div>
+<form:form method="post"
+	action="/Gestade/login" commandName="account">
+	<div class="row">
+		<c:if test="${!empty message}">
+			<div class="alert alert-warning">${message}</div>
+		</c:if>
+		<div class="form-group">
+			<div class="col-md-5">
+				<form:label path="username">
+							Pseudo
 						</form:label>
-					</span> <br />
-					<form:input style="text-align:left;" path="login" type="text" />
-				</div>
+				<form:input style="text-align:left;" path="username" type="text"
+					maxlength="100" class="form-control" />
 
-				<div class="login-box">
-					<span> <form:label path="password">
-							<spring:message code="label.password" />
+			</div>
+			<div class="col-md-5">
+
+				<form:label path="password">
+							Mot de passe
 						</form:label>
-					</span> <br />
-					<form:input path="password" type="password" />
-				</div>
-				<div class="clear"></div>
-				<input type="submit" style="margin-top: 15px;"
-					value='<spring:message code="label.login"/>' />
-			</form:form>
+				<form:input path="password" type="password" maxlength="100"
+					class="form-control" />
+
+			</div>
+			<div class="col-md-2" style="margin-top:28px;">
+				<input type="submit" class="btn btn-primary" value='Login' />
+			</div>
 		</div>
 	</div>
-	<!-- end .content-box -->
-</div>
-<!-- end #login -->
+</form:form>
