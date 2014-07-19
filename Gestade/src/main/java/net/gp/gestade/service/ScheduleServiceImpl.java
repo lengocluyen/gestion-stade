@@ -53,5 +53,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public List<Schedule> all(int page, int pagesize) {
 		return sdao.list(page, pagesize);
 	}
-
+	public Boolean checkInscriptionTime(String date,String toHour, String fromHour ){
+		
+		return true;
+	}
 }

@@ -19,4 +19,6 @@ public interface ScheduleService {
 	int count();
 
 	List<Schedule> all(int page, int pagesize);
+	
+	Boolean checkInscriptionTime(String date,String toHour, String fromHour );
 }
