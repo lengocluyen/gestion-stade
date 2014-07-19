@@ -27,7 +27,7 @@ public class MenuBuild {
 	public static List<MenuItem> AvantLogin(String nameActive) {
 		ArrayList<MenuItem> list = new ArrayList<MenuItem>();
 		list.add(new MenuItem("/Gestade/", "Accueil", ""));
-		list.add(new MenuItem("/Gestade/emploidutemp", "Emploi du temp", ""));
+		list.add(new MenuItem("/Gestade/emploidutemps", "Emploi du temp", ""));
 		list.add(new MenuItem("/Gestade/inscription", "Inscription", ""));
 		list.add(new MenuItem("/Gestade/login", "S'identifier", ""));
 		list.add(new MenuItem("/Gestade/aboutus", "A propos nous", ""));
@@ -41,7 +41,7 @@ public class MenuBuild {
 	public static List<MenuItem> ApresLogin(String nameActive) {
 		ArrayList<MenuItem> list = new ArrayList<MenuItem>();
 		list.add(new MenuItem("/Gestade/", "Accueil", ""));
-		list.add(new MenuItem("/Gestade/emploidutemp", "Emploi du Temp", ""));
+		list.add(new MenuItem("/Gestade/emploidutemps", "Emploi du Temp", ""));
 		list.add(new MenuItem("/Gestade/registration", "Registration", ""));
 		list.add(new MenuItem("/Gestade/votrecompte", "Votre Compte", ""));
 		list.add(new MenuItem("/Gestade/aboutus", "A propos nous", ""));

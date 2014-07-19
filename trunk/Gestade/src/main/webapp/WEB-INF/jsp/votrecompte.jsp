@@ -2,81 +2,28 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<div class="content-box">
-	<div class="content-box-header">
-		<h3>Votre Compte</h3>
+<div class="panel-box" style="padding-bottom:15px;">
+	<div class="titles">
+		<h4>Infomartion de votre compte</h4>
 	</div>
-
-	<div class="content-box-content">
-		<h3>Infomartion de votre compte</h3>
-
-		<div class="column-left">
-			<h3>Votre profile</h3>
-			<table class="data">
-				<tr>
-					<td>Nom</td>
-					<td>${utilisateur.prenom}${utilisateur.nom}</td>
-				</tr>
-				<tr>
-					<td>Email</td>
-					<td>${utilisateur.email}</td>
-				</tr>
-				<tr>
-					<td>Date Naissance</td>
-					<td>${utilisateur.dateNaissance}</td>
-				</tr>
-				<tr>
-					<td>Date Create</td>
-					<td>${utilisateur.dateCreate}</td>
-				</tr>
-				<tr>
-					<td>Date Update</td>
-					<td>${utilisateur.dateUpdate}</td>
-				</tr>
-				<tr>
-					<td><a
-						href="/Covoso/utilisateurcompteupdate/${utilisateur.utilisateurID}">edit</a>
-					</td>
-				</tr>
-			</table>
+	<div class="row">
+		<div class="col-md-2"><p>Nom et prenom:</p></div>
+		<div class="col-md-2"><p>${account.fullname}</p></div>
+		<div class="col-md-2"><p>Telephone:</p></div>
+		<div class="col-md-2"><p>${account.phonenumber}</p></div>
+		<div class="col-md-2"><p>Pseudo:</p></div>
+		<div class="col-md-2"><p>${account.username}</p></div>
+	</div>
+	<div class="row">
+		<div class="col-md-2"><p>Date de creation:</p></div>
+		<div class="col-md-2"><p>${account.dateCreate}</p></div>
+		<div class="col-md-2"><p>Le temps final de login:</p></div>
+		<div class="col-md-6"><p>${account.lastLogin}</p></div>
+		
+	</div>
+	<div class="row">
+	<div class="col-md-12">
+			<input type="button" onclick="location.href='http://localhost:8080/Gestade/inscription';"  class="btn btn-primary" value='Modifier' />
 		</div>
-		<div class="column-right">
-			<h3>Votre compte</h3>
-			<table class="data">
-				<tr>
-					<td>Login</td>
-					<td>${compte.login}</td>
-				</tr>
-				<tr>
-					<td>Type</td>
-					<td>${compte.type}</td>
-				</tr>
-				<tr>
-					<td>Avatar</td>
-					<td>${compte.avatar}</td>
-				</tr>
-			</table>
-			<h3>Vos voitures</h3> <a href="/Covoso/voitureinsert">[Ajoute]</a>
-			<table class="data">
-				<tr>
-					<th>VoitureID</th>
-					<th>Type</th>
-					<th>Nombre Place</th>
-					<th>&nbsp;</th>
-					<th>&nbsp;</th>
-				</tr>
-				<tr>
-			<c:forEach items="${listVoiture}" var="voiture">
-					<tr>
-						<td>${voiture.voitureID}</td>
-						<td>${voiture.type}</td>
-						<td>${voiture.nombrePlace}</td>
-						<td><a href="/Covoso/voitureupdate/${voiture.voitureID}">edit</a></td>
-					</tr>
-				</c:forEach>
-				</tr>
-			</table>
-		</div>
-		<div class="clear"></div>
 	</div>
 </div>

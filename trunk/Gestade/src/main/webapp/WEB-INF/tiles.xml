@@ -47,8 +47,21 @@
 	<definition name="login" extends="base.layoutdetail">
 		<put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
 	</definition>
+	<definition name="registration" extends="base.layoutdetail">
+		<put-attribute name="body" value="/WEB-INF/jsp/registration.jsp" />
+	</definition>
+	<definition name="emploidutempsview" extends="base.layoutempty">
+		<put-attribute name="content" value="/WEB-INF/jsp/emploidutempsview.jsp" />
+	</definition>
+	<definition name="emploidutemps" extends="base.layoutdetail">
+		<put-attribute name="body" value="/WEB-INF/jsp/emploidutemps.jsp" />
+	</definition>
+	
 	<definition name="inscription" extends="base.layoutdetail">
 		<put-attribute name="body" value="/WEB-INF/jsp/inscription.jsp" />
+	</definition>
+	<definition name="votrecompte" extends="base.layoutdetail">
+		<put-attribute name="body" value="/WEB-INF/jsp/votrecompte.jsp" />
 	</definition>
 	<definition name="aboutus" extends="base.layoutdetail">
 		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
@@ -91,50 +104,10 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/adschedule.jsp" />
 	</definition>
 	
-	<!--<definition name="recherche" extends="base.definition">
-		<put-attribute name="title" value="Solution Covoiturage" />
-		<put-attribute name="body" value="/WEB-INF/jsp/recherche.jsp" />
-	</definition>
-	<definition name="base.login" template="/WEB-INF/tiles/layoutlogin.jsp">
-		<put-attribute name="title" value="" />
-		<put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
-		<put-attribute name="menu" value="/WEB-INF/tiles/menu.jsp" />
-		<put-attribute name="body" value="" />
-		<put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
-	</definition>
-	<definition name="login" extends="base.login">
-		<put-attribute name="title" value="Solution Covoiturage" />
-		<put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
-	</definition>
-	<definition name="about" extends="base.login">
-		<put-attribute name="title" value="Solution Covoiturage" />
-		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
+	<definition name="base.layoutempty" template="/WEB-INF/tiles/layoutempty.jsp">
+		<put-attribute name="title" value="Gestion de stade" />
+		<put-attribute name="content" value="" />
 	</definition>
 	
 	
-	<definition name="utilisateur/index" extends="base.admin">
-		<put-attribute name="title" value="Solution Covoiturage" />
-		<put-attribute name="body" value="/WEB-INF/jsp/adutilisateur.jsp" />
-	</definition>
-	<definition name="utilisateur/add" extends="base.admin">
-		<put-attribute name="title" value="Solution Covoiturage" />
-		<put-attribute name="body" value="/WEB-INF/jsp/adutilisateur.jsp" />
-	</definition>
-	<definition name="voiture/index" extends="base.admin">
-		<put-attribute name="title" value="Solution Covoiturage" />
-		<put-attribute name="body" value="/WEB-INF/jsp/advoiture.jsp" />
-	</definition>
-	<definition name="voiture/add" extends="base.admin">
-		<put-attribute name="title" value="Solution Covoiturage" />
-		<put-attribute name="body" value="/WEB-INF/jsp/advoiture.jsp" />
-	</definition>
-	<definition name="compte/index" extends="base.admin">
-		<put-attribute name="title" value="Solution Covoiturage" />
-		<put-attribute name="body" value="/WEB-INF/jsp/adcompte.jsp" />
-	</definition>
-	<definition name="compte/add" extends="base.admin">
-		<put-attribute name="title" value="Solution Covoiturage" />
-		<put-attribute name="body" value="/WEB-INF/jsp/adcompte.jsp" />
-	</definition>
-	-->
 </tiles-definitions>

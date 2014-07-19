@@ -31,7 +31,7 @@ public class SessionManage {
 		if (isLogin != null)
 			return isLogin;
 		else
-			return (Boolean) session.getAttribute("islogin");
+			return session.getAttribute("islogin")==null?false:true;
 	}
 
 	public void setIsLogin(Boolean isLogin) {
