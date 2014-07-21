@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository("ScheduleDao")
 public class ScheduleDaoImpl extends GenericDaoImpl<Schedule, Integer> implements
 		ScheduleDao {
-
 }

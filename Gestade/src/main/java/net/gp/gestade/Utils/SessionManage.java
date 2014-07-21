@@ -3,6 +3,7 @@ package net.gp.gestade.Utils;
 import javax.servlet.http.HttpSession;
 
 import net.gp.gestade.form.Account;
+import net.gp.gestade.form.Stade;
 
 public class SessionManage {
 	private HttpSession session;
@@ -14,7 +15,7 @@ public class SessionManage {
 	private Account account;
 	private Boolean isLogin;
 	private Boolean isAdmin;
-
+	private Stade stade;
 	public Account getAccount() {
 		if (account != null)
 			return account;
@@ -26,7 +27,17 @@ public class SessionManage {
 		session.setAttribute("account", account);
 		this.account = account;
 	}
+	public Stade getStade() {
+		if (stade != null)
+			return stade;
+		else
+			return (Stade) session.getAttribute("stade");
+	}
 
+	public void setStade(Stade stade) {
+		session.setAttribute("stade", stade);
+		this.stade= stade;
+	}
 	public Boolean getIsLogin() {
 		if (isLogin != null)
 			return isLogin;

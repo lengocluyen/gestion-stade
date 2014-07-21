@@ -26,8 +26,6 @@
 
 </head>
 <body> 
-	
-	<div id='calendar'></div>
 	<div id="event_edit_container">
 		<form>
 			<input type="hidden" />
@@ -51,5 +49,6 @@
 		</form>
 	</div>
 	
+	<div id='calendar'></div>
 </body>
 </html>

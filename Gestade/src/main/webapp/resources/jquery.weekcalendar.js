@@ -16,7 +16,18 @@
  */
 
 (function($) {
-
+	function getAccount() {
+		var result = "";
+		$.ajax({
+			url : "/Gestade/getaccount",
+			dataType : 'json',
+			async : false,
+			success : function(json) {
+				result = json;
+			}
+		});
+		return result;
+	}
    $.widget("ui.weekCalendar", {
 
        options : {
@@ -473,6 +484,7 @@
        * setup mouse events for capturing new events
        */
       _setupEventCreationForWeekDay : function($weekDay) {
+    	  if (getAccount() != null) {
          var self = this;
          var options = this.options;
          $weekDay.mousedown(function(event) {
@@ -536,6 +548,7 @@
                options.eventNew(eventDuration, $renderedCalEvent);
             }
          });
+    	  }
       },
 
       /*
@@ -1263,7 +1276,7 @@
       },
 
       _cloneDate : function(d) {
-         return new Date(d.getTime());
+    	 return new Date(d.getTime());
       },
 
       /*
