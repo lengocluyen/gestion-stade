@@ -42,7 +42,6 @@ public class MenuBuild {
 		ArrayList<MenuItem> list = new ArrayList<MenuItem>();
 		list.add(new MenuItem("/Gestade/", "Accueil", ""));
 		list.add(new MenuItem("/Gestade/emploidutemps", "Emploi du Temp", ""));
-		list.add(new MenuItem("/Gestade/registration", "Registration", ""));
 		list.add(new MenuItem("/Gestade/votrecompte", "Votre Compte", ""));
 		list.add(new MenuItem("/Gestade/aboutus", "A propos nous", ""));
 		for (MenuItem menuItem : list) {
