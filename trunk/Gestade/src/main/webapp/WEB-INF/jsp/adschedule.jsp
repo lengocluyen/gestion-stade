@@ -37,7 +37,7 @@
 							<td>${schedule.totalTime}</td>
 							<td>${schedule.price}</td>
 							<td>${schedule.promotion}</td>
-							<td><a href="/Gestade/schedule/edit/${schedule.sscheduleID}">edit</a></td>
+							<td><a href="/Gestade/schedule/edit/${schedule.scheduleID}">edit</a></td>
 							<td><a href="/Gestade/schedule/delete/${schedule.scheduleID}">delete</a></td>
 						</tr>
 					</c:forEach>
